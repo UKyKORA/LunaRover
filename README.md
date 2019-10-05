@@ -7,3 +7,8 @@ git clone https://github.com/UKyKORA/LunaRover.git
 cd LunaRover
 python bin/launch_rover.py
 ```
+## Practice
+Gitlabs are posted under the practice directory. These are isolated programs meant to teach 
+you about git, python, and embedded systems. 
+
+Formatting for your practice submission should be {firstname}_{lastname}_gitlab{x}.py
