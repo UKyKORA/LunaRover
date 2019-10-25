@@ -144,7 +144,7 @@ if __name__=='__main__':
 
 ### Result
 I expect the resulting program to work somewhat like so:
-<img src='gitlab_repl.gif'>
+<img src='gitlab_repl.GIF'>
 
 A good idea is to also 'lint' you code to see if you have anything janky. Lint will crosscheck your code for Python Format Violations. It is really simple to do simply run this in your command line.
 
