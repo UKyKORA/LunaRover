@@ -15,3 +15,10 @@ This is a walkthrough of how to setup a virtual machine on your computer that wi
 * VirtualBox allows you to save the state of the VM, so you can close this VM and reopen it later.
 * The OS used by the workstation is Ubuntu.
 * You can open the terminal and file navigator in the workstation to begin working. It works just like the Ubuntu WSL we also had you install. 
+
+## VM Bugs
+List known bugs/quirks of the VMs here.
+* username and password are both "ubuntu" (linux does not show password keystrokes)
+* No vim installed (sudo apt-get install vim)
+* On select Nvidia GPUs, this version of Ubuntu will lag horribly, updating the ubuntu instance should fix.
+* Networking into VirtualBox can be troublesome with proprietary network drivers.
