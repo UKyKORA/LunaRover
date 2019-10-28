@@ -77,7 +77,7 @@ The types of methods are simply describe as:
 ```python
 class Person:
   LIKES = 'food' # class constant
-  def __init__(self, my_name, my_age):
+  def __init__(self, my_name, my_age): #IMPORTANT: all objects need this method, it is called upon creation of the object see example __main__ code for details.
     self.name = my_name
     self.age = my_age
 
@@ -130,16 +130,25 @@ Here are the specifications for the version of this message translator:
 use the command line to talk to it. This requires some tricky string manipulations and is not to the point of this lab, so I will just give you this part:
     - put this in the bottom of your python file
 ```python
-if __name__=='__main__':
-  not_done = True
-  while not_done:
-    # expect method then atrributes seperated by spaces
-    control = input('Control: ')
-    method_and_params = control.split(' ')
-    if method_and_params[0] == 'exit':
-      not_done = False
-      continue
-    getattr(RoverControl, method_and_params[0])(*method_and_params[1:]) # calls the method with its params
+def start_my_rover_repl():
+    '''starts my rover repl so that i can send commands to it'''
+    not_done = True
+    my_rov = RoverControl() # the rover control class calls its __init__ function here.
+    while not_done:
+        # expect method then atrributes seperated by spaces
+        control = input('Control: ')
+        method_and_params = control.split(' ')
+        if method_and_params[0] == 'exit':
+            not_done = False
+            continue
+        try:
+            # calls the method with its params
+            getattr(my_rov, method_and_params[0])(*method_and_params[1:])
+        except AttributeError:
+            print('Incorrect Control')
+
+if __name__ == '__main__':
+    start_my_rover_repl()
 ```
 
 ### Result
