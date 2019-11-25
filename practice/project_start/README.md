@@ -14,8 +14,12 @@ Because of ROS, all of the different components of the robot are going to be han
 <img src='ros_diagram.png'/>
 _NOTE: these things should be pretty foreign to you, further discussion on how these work will come in the coming weeks._
 
-### The sensors that need to be setup in this way
+The IGV team has developed in this format with the GPS and IMU, just with the sensor/control and ros layer not explicitly seperated. You can see the layers here: 
+<img src='imu_igv_ros.png'/>
+
+### The sensors/controllers that need to be setup in this way
 Each one of these as listed will need a respective ROS Layer and Controller/Sensor Layer Object dedicated to it. 
+
 | Lunabotics     | IGV               | Both                         | 
 |----------------|-------------------|------------------------------|
 | Dig Motor      | GPS               | Intel Realsense Depth Camera | 
@@ -31,5 +35,10 @@ Each one of these as listed will need a respective ROS Layer and Controller/Sens
 **Programming tasks for Task #1 are going to start to be assigned to people, and these will be the primary goal of the club members to create, collaborate on and maintain.**
 
 ## Task #2: Get Remote Control Layer working
+* David and Josh A. will work on remote control later concurrently with task #3 since it uses the same interface.
+
 ## Task #3: Get Logging and Display Layer Working
+* David and Josh A. will work on this first so that there is a display layer for other groups' testing.
+
 ## Task #4: Start on AI Layer
+* Cole and Josh A. will begin devolping this once logging and classical control is developed. Simulation training can begin ASAP.
