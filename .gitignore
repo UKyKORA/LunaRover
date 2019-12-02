@@ -1,0 +1,2 @@
+# Ignore webapp virtualenv, should be setup locally.
+lib/kora/luna_rover/webapp/venv/
