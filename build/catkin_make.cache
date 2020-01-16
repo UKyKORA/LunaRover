@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/josh/share/KORA/LunaRover/devel -DCMAKE_INSTALL_PREFIX=/home/josh/share/KORA/LunaRover/install -G Unix Makefiles
