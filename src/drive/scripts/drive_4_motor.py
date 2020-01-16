@@ -21,7 +21,7 @@ class DriveMotor:
             "back_right": msg.back_right
         }
         for wheel, setting, in setting_dict.items():
-            self.motor_controller_dict[wheel].set_vel
+            self.motor_controller_dict[wheel].set_vel(setting)
 
 
 def launch():

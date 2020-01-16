@@ -1,0 +1,5 @@
+controller: "kora.luna_rover.controllers"
+port1: "/dev/drv1"
+port2: "/dev/drv2"
+port3: "/dev/drv3"
+port4: "/dev/drv4"
