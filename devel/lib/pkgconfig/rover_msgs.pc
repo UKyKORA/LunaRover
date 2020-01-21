@@ -1,0 +1,8 @@
+prefix=/home/joshashley/Projects/LunaRover/devel
+
+Name: rover_msgs
+Description: Description of rover_msgs
+Version: 0.0.1
+Cflags: -I/home/joshashley/Projects/LunaRover/devel/include
+Libs: -L${prefix}/lib 
+Requires: 

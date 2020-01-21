@@ -6,22 +6,22 @@ import stat
 import sys
 
 # find the import for catkin's python package - either from source space or from an installed underlay
-if os.path.exists(os.path.join('/opt/ros/melodic/share/catkin/cmake', 'catkinConfig.cmake.in')):
-    sys.path.insert(0, os.path.join('/opt/ros/melodic/share/catkin/cmake', '..', 'python'))
+if os.path.exists(os.path.join('/home/joshashley/ros_catkin_ws/src/catkin/cmake', 'catkinConfig.cmake.in')):
+    sys.path.insert(0, os.path.join('/home/joshashley/ros_catkin_ws/src/catkin/cmake', '..', 'python'))
 try:
     from catkin.environment_cache import generate_environment_script
 except ImportError:
     # search for catkin package in all workspaces and prepend to path
-    for workspace in "/opt/ros/melodic".split(';'):
+    for workspace in "/home/joshashley/Projects/LunaRover/devel;/home/joshashley/ros_catkin_ws/devel;/home/joshashley/ros_catkin_ws/install_isolated".split(';'):
         python_path = os.path.join(workspace, 'lib/python2.7/dist-packages')
         if os.path.isdir(os.path.join(python_path, 'catkin')):
             sys.path.insert(0, python_path)
             break
     from catkin.environment_cache import generate_environment_script
 
-code = generate_environment_script('/home/josh/share/KORA/LunaRover/devel/env.sh')
+code = generate_environment_script('/home/joshashley/Projects/LunaRover/devel/env.sh')
 
-output_filename = '/mnt/c/Users/Josh/Sharespace/KORA/LunaRover/build/catkin_generated/setup_cached.sh'
+output_filename = '/home/joshashley/Projects/LunaRover/build/catkin_generated/setup_cached.sh'
 with open(output_filename, 'w') as f:
     #print('Generate script for cached setup "%s"' % output_filename)
     f.write('\n'.join(code))

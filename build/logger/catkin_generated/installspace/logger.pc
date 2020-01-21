@@ -1,0 +1,8 @@
+prefix=/home/joshashley/Projects/LunaRover/install
+
+Name: logger
+Description: Description of logger
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

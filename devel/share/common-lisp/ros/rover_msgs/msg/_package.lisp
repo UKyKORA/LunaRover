@@ -1,0 +1,17 @@
+(cl:defpackage rover_msgs-msg
+  (:use )
+  (:export
+   "<DEPTHCAMREADING>"
+   "DEPTHCAMREADING"
+   "<DIGARMSETTING>"
+   "DIGARMSETTING"
+   "<DIGMOTORSETTING>"
+   "DIGMOTORSETTING"
+   "<FWDREADING>"
+   "FWDREADING"
+   "<FWDSETTING>"
+   "FWDSETTING"
+   "<TELEMREADING>"
+   "TELEMREADING"
+  ))
+
