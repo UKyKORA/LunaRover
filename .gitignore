@@ -1,0 +1,4 @@
+*.pyc
+devel
+build
+install
