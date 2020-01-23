@@ -1,8 +1,0 @@
-prefix=/home/joshashley/Projects/LunaRover/devel
-
-Name: depth_cam
-Description: Description of depth_cam
-Version: 0.0.1
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

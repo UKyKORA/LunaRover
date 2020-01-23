@@ -1,2 +1,0 @@
-depth_cam:dig_arm_act:dig_motor:drive:logger:rover_msgs:telem
--DCATKIN_DEVEL_PREFIX=/home/joshashley/Projects/LunaRover/devel -DCMAKE_INSTALL_PREFIX=/home/joshashley/Projects/LunaRover/install -G Unix Makefiles

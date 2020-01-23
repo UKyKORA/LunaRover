@@ -5,7 +5,9 @@ To setup and run do:
 ```shell
 git clone https://github.com/UKyKORA/LunaRover.git
 cd LunaRover
-python bin/launch_rover.py
+./setup --init
+source devel/setup.bash
+# launch ros packages
 ```
 ## Practice
 Gitlabs are posted under the practice directory. These are isolated programs meant to teach 

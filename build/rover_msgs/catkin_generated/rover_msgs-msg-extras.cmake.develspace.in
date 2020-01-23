@@ -1,2 +1,0 @@
-set(rover_msgs_MESSAGE_FILES "/home/joshashley/Projects/LunaRover/src/rover_msgs/msg/DepthCamReading.msg;/home/joshashley/Projects/LunaRover/src/rover_msgs/msg/DigArmSetting.msg;/home/joshashley/Projects/LunaRover/src/rover_msgs/msg/DigMotorSetting.msg;/home/joshashley/Projects/LunaRover/src/rover_msgs/msg/FWDSetting.msg;/home/joshashley/Projects/LunaRover/src/rover_msgs/msg/FWDReading.msg;/home/joshashley/Projects/LunaRover/src/rover_msgs/msg/TelemReading.msg")
-set(rover_msgs_SERVICE_FILES "")

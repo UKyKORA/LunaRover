@@ -1,8 +1,0 @@
-prefix=/home/joshashley/Projects/LunaRover/install
-
-Name: dig_motor
-Description: Description of dig_motor
-Version: 0.0.1
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

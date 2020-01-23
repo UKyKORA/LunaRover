@@ -1,0 +1,23 @@
+#!/bin/bash
+TEST_FILES="test/kora/luna_rover/controllers/teensy_eday_test.py"
+while [ -n "$1" ]; do
+  case "$1" in 
+    --init)
+      catkin_make;;
+    --install) 
+      catkin_make install;
+      cp -r lib/* install/lib;
+      echo "Run source install/setup.bash; PYTHONPATH=";;
+    --build) 
+      catkin_make build;;
+    --help)
+      echo $PYTHONPATH;
+      echo $PWD;;
+    --rebuild)
+      rm -rf build;
+      catkin_make build;;
+    --test)
+      python3.6 -m pytest $TEST_FILES;;
+  esac
+  shift
+done
