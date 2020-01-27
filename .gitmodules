@@ -1,0 +1,6 @@
+[submodule "src/rosbridge_suite"]
+	path = src/rosbridge_suite
+	url = https://github.com/RobotWebTools/rosbridge_suite.git
+[submodule "src/rosauth"]
+	path = src/rosauth
+	url = https://github.com/GT-RAIL/rosauth.git
