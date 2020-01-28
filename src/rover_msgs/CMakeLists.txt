@@ -52,6 +52,7 @@ add_message_files(
    DepthCamReading.msg
    DigArmSetting.msg
    DigMotorSetting.msg
+   SingleMotorSetting.msg
    FWDSetting.msg
    FWDReading.msg
    TelemReading.msg
