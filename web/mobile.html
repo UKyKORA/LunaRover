@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<style>
+
+div, p {margin:0px; padding:0px;}
+#container{
+	width:100%;
+	height:100%;
+	position:fixed;
+}
+#top{height:20vw;}
+#middle{height:70%;}
+#bottom{height:10%;
+padding-top: 20px;}
+
+h1 {
+	text-align:cetner;
+	font-size: 10vw;
+}
+h2 {
+	text-align:cetner;
+}
+
+p{
+	text-align:cetner;
+	font-weight: bold;
+	margin: 1px;
+	font-family: Arial;
+	font-size: 4vw;
+}
+
+.button{
+	background-color: #d3d3d3;
+	width: 70%;
+	height: 9.5%;
+	border: none;
+	color: white;
+	padding: 5px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 8vw;
+	margin: 5px;
+	cursor: pointer;
+	opacity: 0.7;	
+	border-radius: 10px;
+	-webkit-user-select: none;
+   	-khtml-user-select: none;
+    	-moz-user-select: none;
+    	-ms-user-select: none;
+    	user-select: none;
+}
+.button:hover{
+	opacity: 1;
+}
+
+.button2 {background-color: #4CAF50;} /*Green*/
+.button3 {background-color: #f44336;} /*Red*/
+
+#dbutton {
+    display: none;
+}
+
+.SelSty{
+	border-style: solid;
+	border-color: black;
+	border-radius: 5px;
+	border: 0,0,0;
+   color: 0,0,0;
+   background: transparent;
+   font-size: 7vw;
+   font-weight: bold;
+   padding: 2px 10px;
+   margin: 3vw;
+   text-align: center;
+   width: 50%;
+   *background: #58B14C;
+   -webkit-appearance: none;
+}
+
+
+</style>
+</head>
+<body>
+<div align="center">
+<div id="container">
+	<div id="top">
+	<img src="kora-logo.png" alt="KATS Logo" style="float:center-left;width:30vw;">
+	<img src="NASAKY.png" alt="NASA KY Logo" style="float:center-right;height:15vw;">
+	<p></p>
+	</div>
+	<div id="middle">
+        <!--FIXME: CREATE CONNECT AND DISCONNECT FUNCTIONS-->
+	<button id="cbutton" class="button button2" type="button" onclick="toggle_connect('cbutton')">Connect</button>
+	<button id="dbutton" class="button button3" type="button" onclick="toggle_connect('dbutton')">Disconnect</button>
+    <button class="button" type="button" onclick="change_vel(100)">Forward 3</button>
+    <button class="button" type="button" onclick="change_vel(67)">Forward 2</button>
+    <button class="button" type="button" onclick="change_vel(33)">Forward 1</button>
+    <button class="button" type="button" onclick="change_vel(0)">Stop</button>
+    <button class="button" type="button" onclick="change_vel(-33)">Reverse 1</button>
+    <button class="button" type="button" onclick="change_vel(-67)">Reverse 2</button>
+    <button class="button" type="button" onclick="change_vel(-100)">Reverse 3</button>
+	</div>
+	<div id="bottom">
+	<p>Kentucky Organization</p> 
+	<p>of Robotics and Automation</p>
+	<p>E-Day 2020</p>
+    </div>
+    <div class="message-box">
+        <div id="connecting">connecting</div>
+        <div id="connected">connected</div>
+        <div id="closed">closed</div>
+        <div id="error">error</div>
+    </div>
+</div>
+</div>
+<script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+<script>
+    
+    function toggle_connect(buttonId) {
+        var hideBtn, showBtn, menuToggle;
+        if (buttonId == 'cbutton') {
+            document.querySelector('#cbutton').style.display = 'none';
+            document.querySelector('#dbutton').style.display = 'inline-block';
+        } else {
+            document.querySelector('#cbutton').style.display = 'inline-block';
+            document.querySelector('#dbutton').style.display = 'none';
+        }
+    }
+    function change_vel(vel) {
+        console.log(vel);
+        var motor_setting = new ROSLIB.Message({
+            motor_id : 1,
+            motor_value : vel
+        });
+        drive_setting.publish(motor_setting);
+    };
+    // Connecting to ROS
+    // -----------------
+    var ros = new ROSLIB.Ros();
+  
+    // If there is an error on the backend, an 'error' emit will be emitted.
+    ros.on('error', function(error) {
+      document.getElementById('connecting').style.display = 'none';
+      document.getElementById('connected').style.display = 'none';
+      document.getElementById('closed').style.display = 'none';
+      document.getElementById('error').style.display = 'inline';
+      console.log(error);
+    });
+  
+    // Find out exactly when we made a connection.
+    ros.on('connection', function() {
+      console.log('Connection made!');
+      document.getElementById('connecting').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('closed').style.display = 'none';
+      document.getElementById('connected').style.display = 'inline';
+    });
+  
+    ros.on('close', function() {
+      console.log('Connection closed.');
+      document.getElementById('connecting').style.display = 'none';
+      document.getElementById('connected').style.display = 'none';
+      document.getElementById('closed').style.display = 'inline';
+    });
+  
+    // Create a connection to the rosbridge WebSocket server.
+    ros.connect('ws://localhost:9090');
+  
+    // Publishing a Topic
+    // ------------------
+  
+    // First, we create a Topic object with details of the topic's name and message type.
+    var drive_setting = new ROSLIB.Topic({
+      ros : ros,
+      name : '/drive_setting',
+      messageType : 'rover_msgs/SingleMotorSetting'
+    });
+  
+    // Then we create the payload to be published. The object we pass in to ros.Message matches the
+    // fields defined in the geometry_msgs/Twist.msg definition.
+    
+  
+    //Subscribing to a Topic
+    //----------------------
+  
+    // Like when publishing a topic, we first create a Topic object with details of the topic's name
+    // and message type. Note that we can call publish or subscribe on the same topic object.
+    var listener = new ROSLIB.Topic({
+      ros : ros,
+      name : '/listener',
+      messageType : 'std_msgs/String'
+    });
+  
+    // Then we add a callback to be called every time a message is published on this topic.
+    listener.subscribe(function(message) {
+      console.log('Received message on ' + listener.name + ': ' + message.data);
+  
+      // If desired, we can unsubscribe from the topic as well.
+      listener.unsubscribe();
+    });
+  
+    // Calling a service
+    // -----------------
+  
+    // First, we create a Service client with details of the service's name and service type.
+    var addTwoIntsClient = new ROSLIB.Service({
+      ros : ros,
+      name : '/add_two_ints',
+      serviceType : 'rospy_tutorials/AddTwoInts'
+    });
+  
+    // Then we create a Service Request. The object we pass in to ROSLIB.ServiceRequest matches the
+    // fields defined in the rospy_tutorials AddTwoInts.srv file.
+    var request = new ROSLIB.ServiceRequest({
+      a : 1,
+      b : 2
+    });
+  
+    // Finally, we call the /add_two_ints service and get back the results in the callback. The result
+    // is a ROSLIB.ServiceResponse object.
+    addTwoIntsClient.callService(request, function(result) {
+      console.log('Result for service call on ' + addTwoIntsClient.name + ': ' + result.sum);
+    });
+  
+    // Advertising a Service
+    // ---------------------
+  
+    // The Service object does double duty for both calling and advertising services
+    var setBoolServer = new ROSLIB.Service({
+      ros : ros,
+      name : '/set_bool',
+      serviceType : 'std_srvs/SetBool'
+    });
+  
+    // Use the advertise() method to indicate that we want to provide this service
+    setBoolServer.advertise(function(request, response) {
+      console.log('Received service request on ' + setBoolServer.name + ': ' + request.data);
+      response['success'] = true;
+      response['message'] = 'Set successfully';
+      return true;
+    });
+  
+    // Setting a param value
+    // ---------------------
+  
+    ros.getParams(function(params) {
+      console.log(params);
+    });
+  
+    // First, we create a Param object with the name of the param.
+    var maxVelX = new ROSLIB.Param({
+      ros : ros,
+      name : 'max_vel_y'
+    });
+  
+    //Then we set the value of the param, which is sent to the ROS Parameter Server.
+    maxVelX.set(0.8);
+    maxVelX.get(function(value) {
+      console.log('MAX VAL: ' + value);
+    });
+  
+    // Getting a param value
+    // ---------------------
+  
+    var favoriteColor = new ROSLIB.Param({
+      ros : ros,
+      name : 'favorite_color'
+    });
+  
+    favoriteColor.set('red');
+    favoriteColor.get(function(value) {
+      console.log('My robot\'s favorite color is ' + value);
+    });
+  </script>
