@@ -61,6 +61,7 @@ p{
 
 #dbutton {
     display: none;
+    font-size: 6vw;
 }
 
 .SelSty{
@@ -125,17 +126,21 @@ p{
         if (buttonId == 'cbutton') {
             document.querySelector('#cbutton').style.display = 'none';
             document.querySelector('#dbutton').style.display = 'inline-block';
+            document.getElementById('dbutton').textContent = ('Disconnect from motor ' + motor_setting.motor_id);
+            console.log(motor_setting.motor_id);
         } else {
             document.querySelector('#cbutton').style.display = 'inline-block';
             document.querySelector('#dbutton').style.display = 'none';
         }
     }
-    function change_vel(vel) {
-        console.log(vel);
-        var motor_setting = new ROSLIB.Message({
+    //Brought this out of change_vel() because it needs to be global to display the motor id
+    var motor_setting = new ROSLIB.Message({
             motor_id : 1,
-            motor_value : vel
-        });
+            motor_value : 0
+    });
+    function change_vel(vel) {
+        motor_setting.motor_value = vel;
+        console.log(motor_setting.motor_value);
         drive_setting.publish(motor_setting);
     };
     // Connecting to ROS
