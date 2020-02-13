@@ -56,6 +56,8 @@ add_message_files(
    FWDSetting.msg
    FWDReading.msg
    TelemReading.msg
+   MotorId.msg
+   MotorIdRequest.msg
 )
 
 ## Generate services in the 'srv' folder

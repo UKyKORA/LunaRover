@@ -7,7 +7,7 @@ git clone https://github.com/UKyKORA/LunaRover.git
 cd LunaRover
 ./setup --init
 source devel/setup.bash
-# launch ros packages
+roslaunch drive drive_test.launch
 ```
 ## Practice
 Gitlabs are posted under the practice directory. These are isolated programs meant to teach 

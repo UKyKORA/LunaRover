@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 '''controller for testing ros nodes functionality'''
 
 class TestCont():
