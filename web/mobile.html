@@ -16,23 +16,24 @@ div, p {margin:0px; padding:0px;}
 padding-top: 20px;}
 
 h1 {
-	text-align:cetner;
+	text-align:center;
 	font-size: 10vw;
 }
 h2 {
-	text-align:cetner;
+	text-align:center;
 }
 
 p{
-	text-align:cetner;
-	font-weight: bold;
+    text-align:center;
+    color: #383838;
+	font-weight: lighter;
 	margin: 1px;
 	font-family: Arial;
 	font-size: 4vw;
 }
 
 .button{
-	background-color: #d3d3d3;
+	background-color: #8a8a8a;
 	width: 70%;
 	height: 9.5%;
 	border: none;
@@ -44,7 +45,7 @@ p{
 	font-size: 8vw;
 	margin: 5px;
 	cursor: pointer;
-	opacity: 0.7;	
+	opacity: 0.4;	
 	border-radius: 10px;
 	-webkit-user-select: none;
    	-khtml-user-select: none;
@@ -62,6 +63,12 @@ p{
 #dbutton {
     display: none;
     font-size: 6vw;
+    opacity: 0.9;
+}
+.message-box {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2vw;
+    display: block;
 }
 
 .SelSty{
@@ -96,13 +103,13 @@ p{
         <!--FIXME: CREATE CONNECT AND DISCONNECT FUNCTIONS-->
 	<button id="cbutton" class="button button2" type="button" onclick="toggle_connect('cbutton')">Connect</button>
 	<button id="dbutton" class="button button3" type="button" onclick="toggle_connect('dbutton')">Disconnect</button>
-    <button class="button" type="button" onclick="change_vel(100)">Forward 3</button>
-    <button class="button" type="button" onclick="change_vel(67)">Forward 2</button>
-    <button class="button" type="button" onclick="change_vel(33)">Forward 1</button>
-    <button class="button" type="button" onclick="change_vel(0)">Stop</button>
-    <button class="button" type="button" onclick="change_vel(-33)">Reverse 1</button>
-    <button class="button" type="button" onclick="change_vel(-67)">Reverse 2</button>
-    <button class="button" type="button" onclick="change_vel(-100)">Reverse 3</button>
+    <button id="fwd3" class="button" type="button" onclick="change_vel(100); darken('fwd3');">Forward 3</button>
+    <button id="fwd2" class="button" type="button" onclick="change_vel(67); darken('fwd2');">Forward 2</button>
+    <button id="fwd1" class="button" type="button" onclick="change_vel(33); darken('fwd1');">Forward 1</button>
+    <button id="stop" class="button" type="button" onclick="change_vel(0); darken('stop')">Stop</button>
+    <button id="bw1" class="button" type="button" onclick="change_vel(-33); darken('bw1')">Reverse 1</button>
+    <button id="bw2" class="button" type="button" onclick="change_vel(-67); darken('bw2')">Reverse 2</button>
+    <button id="bw3" class="button" type="button" onclick="change_vel(-100); darken('bw3')">Reverse 3</button>
 	</div>
 	<div id="bottom">
 	<p>Kentucky Organization</p> 
@@ -110,16 +117,24 @@ p{
 	<p>E-Day 2020</p>
     </div>
     <div class="message-box">
-        <div id="connecting">connecting</div>
-        <div id="connected">connected</div>
-        <div id="closed">closed</div>
-        <div id="error">error</div>
+        <div id="connecting" style="display:none;">Connecting...</div>
+        <div id="connected" style="display:none;">Connection made.</div>
+        <div id="closed" style="display:none;">Connection closed.</div>
+        <div id="error" style="color:red;display:none;">Error</div>
     </div>
 </div>
 </div>
 <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
 <script src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
 <script>
+    function darken(buttonId) {
+        var button = document.getElementsByClassName('button');
+        for(i = 0; i < button.length; i++) {
+            button[i].style.opacity = 0.4;
+        };
+        document.getElementById(buttonId).style.opacity = 1;
+        document.getElementById('dbutton').style.opacity = .9;
+    };
     
     function toggle_connect(buttonId) {
         var hideBtn, showBtn, menuToggle;
@@ -152,7 +167,7 @@ p{
       document.getElementById('connecting').style.display = 'none';
       document.getElementById('connected').style.display = 'none';
       document.getElementById('closed').style.display = 'none';
-      document.getElementById('error').style.display = 'inline';
+      document.getElementById('error').style.display = 'block';
       console.log(error);
     });
   
@@ -162,14 +177,14 @@ p{
       document.getElementById('connecting').style.display = 'none';
       document.getElementById('error').style.display = 'none';
       document.getElementById('closed').style.display = 'none';
-      document.getElementById('connected').style.display = 'inline';
+      document.getElementById('connected').style.display = 'block';
     });
   
     ros.on('close', function() {
       console.log('Connection closed.');
       document.getElementById('connecting').style.display = 'none';
       document.getElementById('connected').style.display = 'none';
-      document.getElementById('closed').style.display = 'inline';
+      document.getElementById('closed').style.display = 'block';
     });
   
     // Create a connection to the rosbridge WebSocket server.
