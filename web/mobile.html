@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<meta charset="utf-8"/>
 <style>
 
 div, p {margin:0px; padding:0px;}
@@ -87,8 +88,6 @@ p{
    *background: #58B14C;
    -webkit-appearance: none;
 }
-
-
 </style>
 </head>
 <body>
@@ -126,7 +125,9 @@ p{
 </div>
 <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
 <script src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+    // set darkmode
     function darken(buttonId) {
         var button = document.getElementsByClassName('button');
         for(i = 0; i < button.length; i++) {
@@ -135,29 +136,7 @@ p{
         document.getElementById(buttonId).style.opacity = 1;
         document.getElementById('dbutton').style.opacity = .9;
     };
-    
-    function toggle_connect(buttonId) {
-        var hideBtn, showBtn, menuToggle;
-        if (buttonId == 'cbutton') {
-            document.querySelector('#cbutton').style.display = 'none';
-            document.querySelector('#dbutton').style.display = 'inline-block';
-            document.getElementById('dbutton').textContent = ('Disconnect from motor ' + motor_setting.motor_id);
-            console.log(motor_setting.motor_id);
-        } else {
-            document.querySelector('#cbutton').style.display = 'inline-block';
-            document.querySelector('#dbutton').style.display = 'none';
-        }
-    }
-    //Brought this out of change_vel() because it needs to be global to display the motor id
-    var motor_setting = new ROSLIB.Message({
-            motor_id : 1,
-            motor_value : 0
-    });
-    function change_vel(vel) {
-        motor_setting.motor_value = vel;
-        console.log(motor_setting.motor_value);
-        drive_setting.publish(motor_setting);
-    };
+
     // Connecting to ROS
     // -----------------
     var ros = new ROSLIB.Ros();
@@ -190,109 +169,88 @@ p{
     // Create a connection to the rosbridge WebSocket server.
     ros.connect('ws://localhost:9090');
   
-    // Publishing a Topic
-    // ------------------
   
-    // First, we create a Topic object with details of the topic's name and message type.
+    // Setting up topics for ROS
+    // -------------------------
+    // Client ID used for communicating over a shared topic in the ROS node
+    var my_client_id = Math.floor(Math.random() * 1000) 
+
+    var motor_id_set = false; 
+
+    // Message for setting the motor speeds
+    var motor_setting = new ROSLIB.Message({
+            motor_id : -1,
+            motor_value : 0
+    });
+
+    // Topic for sending motor speeds
     var drive_setting = new ROSLIB.Topic({
       ros : ros,
       name : '/drive_setting',
       messageType : 'rover_msgs/SingleMotorSetting'
     });
-  
-    // Then we create the payload to be published. The object we pass in to ros.Message matches the
-    // fields defined in the geometry_msgs/Twist.msg definition.
-    
-  
-    //Subscribing to a Topic
-    //----------------------
-  
-    // Like when publishing a topic, we first create a Topic object with details of the topic's name
-    // and message type. Note that we can call publish or subscribe on the same topic object.
-    var listener = new ROSLIB.Topic({
-      ros : ros,
-      name : '/listener',
-      messageType : 'std_msgs/String'
+
+    // Topic for requesting a motor to send speeds to
+    var motor_request = new ROSLIB.Topic({
+      ros: ros,
+      name: '/motor_id_request',
+      messageType: 'rover_msgs/MotorIdRequest'
     });
-  
-    // Then we add a callback to be called every time a message is published on this topic.
-    listener.subscribe(function(message) {
-      console.log('Received message on ' + listener.name + ': ' + message.data);
-  
-      // If desired, we can unsubscribe from the topic as well.
-      listener.unsubscribe();
+
+    // Topic for receiving motor id to send speeds to
+    var motor_assignment = new ROSLIB.Topic({
+      ros: ros,
+      name: '/motor_id',
+      messageType: 'rover_msgs/MotorId'
     });
-  
-    // Calling a service
-    // -----------------
-  
-    // First, we create a Service client with details of the service's name and service type.
-    var addTwoIntsClient = new ROSLIB.Service({
-      ros : ros,
-      name : '/add_two_ints',
-      serviceType : 'rospy_tutorials/AddTwoInts'
+
+    // Listen for motor_id recieved
+    motor_assignment.subscribe(function (message) {
+      if (message.client_key == my_client_id) {
+        motor_setting.motor_id = message.motor_id;
+        motor_id_set = true;
+        motor_assignment.unsubscribe();
+      }
     });
-  
-    // Then we create a Service Request. The object we pass in to ROSLIB.ServiceRequest matches the
-    // fields defined in the rospy_tutorials AddTwoInts.srv file.
-    var request = new ROSLIB.ServiceRequest({
-      a : 1,
-      b : 2
+
+    // ============== Button Controls of the Ros Topics ================
+    // toggle connection to the robot
+    function toggle_connect(buttonId) {
+        var hideBtn, showBtn, menuToggle;
+        if (buttonId == 'cbutton') {
+            document.querySelector('#cbutton').style.display = 'none';
+            document.querySelector('#dbutton').style.display = 'inline-block';
+            document.getElementById('dbutton').textContent = ('Disconnect from motor ' + motor_setting.motor_id);
+            var connect_request = new ROSLIB.Message({
+              client_key: my_client_id,
+              connect_or_disconnect: true
+            });
+            motor_request.publish(connect_request);
+            console.log(motor_setting.motor_id);
+        } else {
+            document.querySelector('#cbutton').style.display = 'inline-block';
+            document.querySelector('#dbutton').style.display = 'none';
+            var connect_request = new ROSLIB.Message({
+              client_key: my_client_id,
+              connect_or_disconnect: false
+            });
+            motor_request.publish(connect_request);
+        }
+    };
+
+    // before the window closes, ensure disconnected
+    $(window).bind("beforeunload", function() { 
+        var connect_request = new ROSLIB.Message({
+          client_key: my_client_id,
+          connect_or_disconnect: false
+        });
+        motor_request.publish(connect_request);
     });
-  
-    // Finally, we call the /add_two_ints service and get back the results in the callback. The result
-    // is a ROSLIB.ServiceResponse object.
-    addTwoIntsClient.callService(request, function(result) {
-      console.log('Result for service call on ' + addTwoIntsClient.name + ': ' + result.sum);
-    });
-  
-    // Advertising a Service
-    // ---------------------
-  
-    // The Service object does double duty for both calling and advertising services
-    var setBoolServer = new ROSLIB.Service({
-      ros : ros,
-      name : '/set_bool',
-      serviceType : 'std_srvs/SetBool'
-    });
-  
-    // Use the advertise() method to indicate that we want to provide this service
-    setBoolServer.advertise(function(request, response) {
-      console.log('Received service request on ' + setBoolServer.name + ': ' + request.data);
-      response['success'] = true;
-      response['message'] = 'Set successfully';
-      return true;
-    });
-  
-    // Setting a param value
-    // ---------------------
-  
-    ros.getParams(function(params) {
-      console.log(params);
-    });
-  
-    // First, we create a Param object with the name of the param.
-    var maxVelX = new ROSLIB.Param({
-      ros : ros,
-      name : 'max_vel_y'
-    });
-  
-    //Then we set the value of the param, which is sent to the ROS Parameter Server.
-    maxVelX.set(0.8);
-    maxVelX.get(function(value) {
-      console.log('MAX VAL: ' + value);
-    });
-  
-    // Getting a param value
-    // ---------------------
-  
-    var favoriteColor = new ROSLIB.Param({
-      ros : ros,
-      name : 'favorite_color'
-    });
-  
-    favoriteColor.set('red');
-    favoriteColor.get(function(value) {
-      console.log('My robot\'s favorite color is ' + value);
-    });
+
+    // change the velocity and send it to the ros node.
+    function change_vel(vel) {
+        motor_setting.motor_value = vel;
+        console.log(motor_setting.motor_value);
+        drive_setting.publish(motor_setting);
+    };
   </script>
