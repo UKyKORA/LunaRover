@@ -167,13 +167,15 @@ p{
     });
   
     // Create a connection to the rosbridge WebSocket server.
-    ros.connect('ws://localhost:9090');
-  
+    var socketURL = location.origin.replace(/^http/, "ws") + ":9090";
+
+    ros.connect(socketURL);
   
     // Setting up topics for ROS
     // -------------------------
     // Client ID used for communicating over a shared topic in the ROS node
     var my_client_id = Math.floor(Math.random() * 1000) 
+
 
     var motor_id_set = false; 
 
@@ -204,14 +206,24 @@ p{
       messageType: 'rover_msgs/MotorId'
     });
 
+
     // Listen for motor_id recieved
     motor_assignment.subscribe(function (message) {
       if (message.client_key == my_client_id) {
-        motor_setting.motor_id = message.motor_id;
+        motor_setting.motor_id = message.assigned_id;
+        console.log("Got Motor: ", motor_setting.motor_id);
         motor_id_set = true;
-        motor_assignment.unsubscribe();
+        //motor_assignment.unsubscribe();
       }
     });
+
+    var connect_request = new ROSLIB.Message({
+      client_key: my_client_id,
+      connect_or_disconnect: true
+    });
+
+    console.log("requesting motor id");
+    motor_request.publish(connect_request);
 
     // ============== Button Controls of the Ros Topics ================
     // toggle connection to the robot
@@ -221,11 +233,6 @@ p{
             document.querySelector('#cbutton').style.display = 'none';
             document.querySelector('#dbutton').style.display = 'inline-block';
             document.getElementById('dbutton').textContent = ('Disconnect from motor ' + motor_setting.motor_id);
-            var connect_request = new ROSLIB.Message({
-              client_key: my_client_id,
-              connect_or_disconnect: true
-            });
-            motor_request.publish(connect_request);
             console.log(motor_setting.motor_id);
         } else {
             document.querySelector('#cbutton').style.display = 'inline-block';
