@@ -58,20 +58,27 @@ p{
 	opacity: 1;
 }
 
-.button2 {background-color: #4CAF50;} /*Green*/
-.button3 {background-color: #f44336;} /*Red*/
-
-#dbutton {
-    display: none;
-    font-size: 6vw;
-    opacity: 0.9;
-}
 .message-box {
     font-family: 'Courier New', Courier, monospace;
     font-size: 2vw;
     display: block;
 }
-
+#motor_number {
+  background-color:#3399ff;
+	width: 70%;
+	height: 5.5%;
+	border: none;
+	color: white;
+	padding: 5px;
+	text-align: center;
+	text-decoration: none;
+	display: block;
+	font-size: 8vw;
+	margin: 5px;
+	border-radius: 10px;
+  font: 400 11px system-ui;
+  font-size: 5vw;
+}
 .SelSty{
 	border-style: solid;
 	border-color: black;
@@ -100,8 +107,7 @@ p{
 	</div>
 	<div id="middle">
         <!--FIXME: CREATE CONNECT AND DISCONNECT FUNCTIONS-->
-	<button id="cbutton" class="button button2" type="button" onclick="toggle_connect('cbutton')">Connect</button>
-	<button id="dbutton" class="button button3" type="button" onclick="toggle_connect('dbutton')">Disconnect</button>
+	<span id="motor_number">Connected to motor x</span>
     <button id="fwd3" class="button" type="button" onclick="change_vel(100); darken('fwd3');">Forward 3</button>
     <button id="fwd2" class="button" type="button" onclick="change_vel(67); darken('fwd2');">Forward 2</button>
     <button id="fwd1" class="button" type="button" onclick="change_vel(33); darken('fwd1');">Forward 1</button>
@@ -213,6 +219,8 @@ p{
         motor_setting.motor_id = message.assigned_id;
         console.log("Got Motor: ", motor_setting.motor_id);
         motor_id_set = true;
+        //Display motor_id on page
+        document.getElementById('motor_number').textContent = ('Connected to motor ' + motor_setting.motor_id);
         //motor_assignment.unsubscribe();
       }
     });
@@ -227,7 +235,7 @@ p{
 
     // ============== Button Controls of the Ros Topics ================
     // toggle connection to the robot
-    function toggle_connect(buttonId) {
+    /* function toggle_connect(buttonId) {
         var hideBtn, showBtn, menuToggle;
         if (buttonId == 'cbutton') {
             document.querySelector('#cbutton').style.display = 'none';
@@ -243,7 +251,7 @@ p{
             });
             motor_request.publish(connect_request);
         }
-    };
+    }; */
 
     // before the window closes, ensure disconnected
     $(window).bind("beforeunload", function() { 
