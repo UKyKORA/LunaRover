@@ -138,11 +138,14 @@ p{
 	    <button id="bw3_2" class="button" type="button" onpointerdown="darken('bw3_2'); change_vel([-100,-100]);" onpointerup="darken('error');change_vel([0,0]);">&#60;&#60;&#60;</button>
 	</div>
 	<div id="one_player">
-	    <span id="motor_number">Connected to motor x</span>
-	    <button id="fwd_1" class="button" type="button" onpointerdown="darken('fwd_1'); change_vel([67,67,67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#62;&#62;</button>
-	    <button id="bw_1" class="button" type="button" onpointerdown="darken('bw_1'); change_vel([-67,-67,-67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#62;</button>
-	    <button id="left" class="button" type="button" onpointerdown="darken('left'); change_vel([-67,67,-67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#60;</button>
-	    <button id="right" class="button" type="button" onpointerdown="darken('right'); change_vel([67,-67,67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#60;&#60;</button>
+	    <span id="motor_number" style="margin-bottom:15px;">Connected to motor x</span>
+      <button id="fwd_1" class="button" style="width:10vw" type="button" onpointerdown="darken('fwd_1'); change_vel([67,67,67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8593;</button>
+      <div style="display:inline-block;width:80%;">
+        <button id="left" style="float:left;display:inline-block;width:10vw;"class="button" type="button" onpointerdown="darken('left'); change_vel([-67,67,-67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8592;</button>
+        <button id="right" style="float:right;display:inline-block;width:10vw;" class="button" type="button" onpointerdown="darken('right'); change_vel([67,-67,67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8594;</button>
+      </div>
+	    <button id="bw_1" class="button" style="width:10vw" type="button" onpointerdown="darken('bw_1'); change_vel([-67,-67,-67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8595;</button>
+	    
 	</div>
 	<div id="middle">
         <!--MOM'S SPAGHETTI-->
