@@ -12,9 +12,23 @@ div, p {margin:0px; padding:0px;}
 	position:fixed;
 }
 #top{height:20vw;}
-#middle{height:70%;}
-#bottom{height:10%;
-padding-top: 20px;}
+#middle{
+	height:70%;
+	display: none;
+}
+#bottom{
+	height:10%;
+	width: 50%;
+	position: fixed;
+	bottom: 20px;
+	left: 25%;
+}
+#two_player{
+	display: none;
+}
+#one_player{
+	display: none;
+}
 
 h1 {
 	text-align:center;
@@ -22,6 +36,8 @@ h1 {
 }
 h2 {
 	text-align:center;
+	font-family: Arial;
+	color: #3399ff
 }
 
 p{
@@ -106,15 +122,27 @@ p{
 	<img src="NASAKY.png" alt="NASA KY Logo" style="float:center-right;height:15vw;">
 	<p></p>
 	</div>
+	<div id="choose_mode">
+		<h2>Choose game mode</h2>
+		<button class="button" onclick="four_player();">4 player mode</button>
+		<button class="button" onclick="two_player();">2 player mode</button>
+		<button class="button" onclick="one_player();">1 player mode</button>
+	</div>
+	<div id="two_player">
+		<p>Please give me functionality</p>
+	</div>
+	<div id="one_player">
+		<p>Please give me functionality</p>	
+	</div>
 	<div id="middle">
         <!--MOM'S SPAGHETTI-->
 	    <span id="motor_number">Connected to motor x</span>
-	    <button id="fwd3" class="button" type="button" onmousedown="darken('fwd3'); change_vel(100);" onmouseup="darken();change_vel(0);">&#62;&#62;&#62;</button>
-	    <button id="fwd2" class="button" type="button" onmousedown="darken('fwd2'); change_vel(67);" onmouseup="darken();change_vel(0);">&#62;&#62;</button>
-	    <button id="fwd1" class="button" type="button" onmousedown="darken('fwd1'); change_vel(33);" onmouseup="darken();change_vel(0);">&#62;</button>
-	    <button id="bw1" class="button" type="button" onmousedown="darken('bw1'); change_vel(-33);" onmouseup="darken();change_vel(0);">&#60;</button>
-	    <button id="bw2" class="button" type="button" onmousedown="darken('bw2'); change_vel(-67);" onmouseup="darken();change_vel(0);">&#60;&#60;</button>
-	    <button id="bw3" class="button" type="button" onmousedown="darken('bw3'); change_vel(-100);" onmouseup="darken();change_vel(0);">&#60;&#60;&#60;</button>
+	    <button id="fwd3" class="button" type="button" onpointerdown="darken('fwd3'); change_vel(100);" onpointerup="darken('error');change_vel(0);">&#62;&#62;&#62;</button>
+	    <button id="fwd2" class="button" type="button" onpointerdown="darken('fwd2'); change_vel(67);" onpointerup="darken('error');change_vel(0);">&#62;&#62;</button>
+	    <button id="fwd1" class="button" type="button" onpointerdown="darken('fwd1'); change_vel(33);" onpointerup="darken('error');change_vel(0);">&#62;</button>
+	    <button id="bw1" class="button" type="button" onpointerdown="darken('bw1'); change_vel(-33);" onpointerup="darken('error');change_vel(0);">&#60;</button>
+	    <button id="bw2" class="button" type="button" onpointerdown="darken('bw2'); change_vel(-67);" onpointerup="darken('error');change_vel(0);">&#60;&#60;</button>
+	    <button id="bw3" class="button" type="button" onpointerdown="darken('bw3'); change_vel(-100);" onpointerup="darken('error');change_vel(0);">&#60;&#60;&#60;</button>
 	</div>
 	<div id="bottom">
 	<p>Kentucky Organization</p> 
@@ -133,6 +161,19 @@ p{
 <script src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+    // set to four player mode
+    function four_player() {
+	    document.getElementById('choose_mode').style.display = 'none';
+	    document.getElementById('middle').style.display = 'inline-block';
+    };
+    function two_player() {
+	    document.getElementById('choose_mode').style.display = 'none';
+	    document.getElementById('two_player').style.display = 'inline-block';
+    };
+    function one_player() {
+	    document.getElementById('choose_mode').style.display = 'none';
+	    document.getElementById('one_player').style.display = 'inline-block';
+    };
     // set darkmode
     function darken(buttonId) {
         var button = document.getElementsByClassName('button');
