@@ -66,7 +66,7 @@ p{
 #motor_number {
   background-color:#3399ff;
 	width: 70%;
-	height: 5.5%;
+	height: auto;
 	border: none;
 	color: white;
 	padding: 5px;
@@ -78,6 +78,7 @@ p{
 	border-radius: 10px;
   font: 400 11px system-ui;
   font-size: 5vw;
+  word-wrap: break-word;
 }
 .SelSty{
 	border-style: solid;
@@ -219,7 +220,13 @@ p{
         console.log("Got Motor: ", motor_setting.motor_id);
         motor_id_set = true;
         //Display motor_id on page
-        document.getElementById('motor_number').textContent = ('Connected to motor ' + motor_setting.motor_id);
+        motor_list = {
+          1: "front left",
+          2: "front right",
+          3: "back left",
+          4: "back right"
+        }
+        document.getElementById('motor_number').textContent = ('Connected to ' + motor_list[motor_setting.motor_id] + ' motor');
         //motor_assignment.unsubscribe();
       }
     });
