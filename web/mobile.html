@@ -108,14 +108,13 @@ p{
 	</div>
 	<div id="middle">
         <!--FIXME: CREATE CONNECT AND DISCONNECT FUNCTIONS-->
-	<span id="motor_number">Connected to motor x</span>
-    <button id="fwd3" class="button" type="button" onclick="darken('fwd3'); change_vel(100);">Forward 3</button>
-    <button id="fwd2" class="button" type="button" onclick="darken('fwd2'); change_vel(67);">Forward 2</button>
-    <button id="fwd1" class="button" type="button" onclick="darken('fwd1'); change_vel(33);">Forward 1</button>
-    <button id="stop" class="button" type="button" onclick="darken('stop'); change_vel(0);">Stop</button>
-    <button id="bw1" class="button" type="button" onclick="darken('bw1'); change_vel(-33);">Reverse 1</button>
-    <button id="bw2" class="button" type="button" onclick="darken('bw2'); change_vel(-67);">Reverse 2</button>
-    <button id="bw3" class="button" type="button" onclick="darken('bw3'); change_vel(-100);">Reverse 3</button>
+	    <span id="motor_number">Connected to motor x</span>
+	    <button id="fwd3" class="button" type="button" onmousedown="darken('fwd3'); change_vel(100);" onmouseup="change_vel(0);darken('error');">Forward 3</button>
+	    <button id="fwd2" class="button" type="button" onmousedown="darken('fwd2'); change_vel(67);" onmouseup="change_vel(0);darken('error');">Forward 2</button>
+	    <button id="fwd1" class="button" type="button" onmousedown="darken('fwd1'); change_vel(33);" onmouseup="change_vel(0);darken('error');">Forward 1</button>
+	    <button id="bw1" class="button" type="button" onmousedown="darken('bw1'); change_vel(-33);" onmouseup="change_vel(0);darken('error');">Reverse 1</button>
+	    <button id="bw2" class="button" type="button" onmousedown="darken('bw2'); change_vel(-67);" onmouseup="change_vel(0);darken('error');">Reverse 2</button>
+	    <button id="bw3" class="button" type="button" onmousedown="darken('bw3'); change_vel(-100);" onmouseup="change_vel(0);darken('error');">Reverse 3</button>
 	</div>
 	<div id="bottom">
 	<p>Kentucky Organization</p> 
