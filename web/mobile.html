@@ -129,20 +129,30 @@ p{
 		<button class="button" onclick="one_player();">1 player mode</button>
 	</div>
 	<div id="two_player">
-		<p>Please give me functionality</p>
+	    <span id="motor_number">Connected to motor x</span>
+	    <button id="fwd3" class="button" type="button" onpointerdown="darken('fwd3'); change_vel([100,100]);" onpointerup="darken('error');change_vel([0,0]);">&#62;&#62;&#62;</button>
+	    <button id="fwd2" class="button" type="button" onpointerdown="darken('fwd2'); change_vel([67,67]);" onpointerup="darken('error');change_vel([0,0]);">&#62;&#62;</button>
+	    <button id="fwd1" class="button" type="button" onpointerdown="darken('fwd1'); change_vel([33,33]);" onpointerup="darken('error');change_vel([0,0]);">&#62;</button>
+	    <button id="bw1" class="button" type="button" onpointerdown="darken('bw1'); change_vel([-33,-33]);" onpointerup="darken('error');change_vel([0,0]);">&#60;</button>
+	    <button id="bw2" class="button" type="button" onpointerdown="darken('bw2'); change_vel([-67,-67]);" onpointerup="darken('error');change_vel([0,0]);">&#60;&#60;</button>
+	    <button id="bw3" class="button" type="button" onpointerdown="darken('bw3'); change_vel([-100,-100]);" onpointerup="darken('error');change_vel([0,0]);">&#60;&#60;&#60;</button>
 	</div>
 	<div id="one_player">
-		<p>Please give me functionality</p>	
+	    <span id="motor_number">Connected to motor x</span>
+	    <button id="fwd" class="button" type="button" onpointerdown="darken('fwd'); change_vel([67,67,67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#62;&#62;</button>
+	    <button id="bw" class="button" type="button" onpointerdown="darken('bw'); change_vel([-67,-67,-67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#62;</button>
+	    <button id="left" class="button" type="button" onpointerdown="darken('left'); change_vel([-67,67,-67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#60;</button>
+	    <button id="right" class="button" type="button" onpointerdown="darken('right'); change_vel([67,-67,67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#60;&#60;</button>
 	</div>
 	<div id="middle">
         <!--MOM'S SPAGHETTI-->
 	    <span id="motor_number">Connected to motor x</span>
-	    <button id="fwd3" class="button" type="button" onpointerdown="darken('fwd3'); change_vel(100);" onpointerup="darken('error');change_vel(0);">&#62;&#62;&#62;</button>
-	    <button id="fwd2" class="button" type="button" onpointerdown="darken('fwd2'); change_vel(67);" onpointerup="darken('error');change_vel(0);">&#62;&#62;</button>
-	    <button id="fwd1" class="button" type="button" onpointerdown="darken('fwd1'); change_vel(33);" onpointerup="darken('error');change_vel(0);">&#62;</button>
-	    <button id="bw1" class="button" type="button" onpointerdown="darken('bw1'); change_vel(-33);" onpointerup="darken('error');change_vel(0);">&#60;</button>
-	    <button id="bw2" class="button" type="button" onpointerdown="darken('bw2'); change_vel(-67);" onpointerup="darken('error');change_vel(0);">&#60;&#60;</button>
-	    <button id="bw3" class="button" type="button" onpointerdown="darken('bw3'); change_vel(-100);" onpointerup="darken('error');change_vel(0);">&#60;&#60;&#60;</button>
+	    <button id="fwd3" class="button" type="button" onpointerdown="darken('fwd3'); change_vel([100]);" onpointerup="darken('error');change_vel([0]);">&#62;&#62;&#62;</button>
+	    <button id="fwd2" class="button" type="button" onpointerdown="darken('fwd2'); change_vel([67]);" onpointerup="darken('error');change_vel([0]);">&#62;&#62;</button>
+	    <button id="fwd1" class="button" type="button" onpointerdown="darken('fwd1'); change_vel([33]);" onpointerup="darken('error');change_vel([0]);">&#62;</button>
+	    <button id="bw1" class="button" type="button" onpointerdown="darken('bw1'); change_vel([-33]);" onpointerup="darken('error');change_vel([0]);">&#60;</button>
+	    <button id="bw2" class="button" type="button" onpointerdown="darken('bw2'); change_vel([-67]);" onpointerup="darken('error');change_vel([0]);">&#60;&#60;</button>
+	    <button id="bw3" class="button" type="button" onpointerdown="darken('bw3'); change_vel([-100]);" onpointerup="darken('error');change_vel([0]);">&#60;&#60;&#60;</button>
 	</div>
 	<div id="bottom">
 	<p>Kentucky Organization</p> 
@@ -161,19 +171,6 @@ p{
 <script src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-    // set to four player mode
-    function four_player() {
-	    document.getElementById('choose_mode').style.display = 'none';
-	    document.getElementById('middle').style.display = 'inline-block';
-    };
-    function two_player() {
-	    document.getElementById('choose_mode').style.display = 'none';
-	    document.getElementById('two_player').style.display = 'inline-block';
-    };
-    function one_player() {
-	    document.getElementById('choose_mode').style.display = 'none';
-	    document.getElementById('one_player').style.display = 'inline-block';
-    };
     // set darkmode
     function darken(buttonId) {
         var button = document.getElementsByClassName('button');
@@ -252,32 +249,10 @@ p{
       messageType: 'rover_msgs/MotorId'
     });
 
-
-    // Listen for motor_id recieved
-    motor_assignment.subscribe(function (message) {
-      if (message.client_key == my_client_id) {
-        motor_setting.motor_id = message.assigned_id;
-        console.log("Got Motor: ", motor_setting.motor_id);
-        motor_id_set = true;
-        //Display motor_id on page
-        motor_list = {
-          1: "front left",
-          2: "front right",
-          3: "back left",
-          4: "back right"
-        }
-        document.getElementById('motor_number').textContent = ('Connected to ' + motor_list[motor_setting.motor_id] + ' motor');
-        //motor_assignment.unsubscribe();
-      }
-    });
-
     var connect_request = new ROSLIB.Message({
       client_key: my_client_id,
       connect_or_disconnect: true
     });
-
-    console.log("requesting motor id");
-    motor_request.publish(connect_request);
 
     // ============== Button Controls of the Ros Topics ================
     // toggle connection to the robot
@@ -311,10 +286,61 @@ p{
         motor_request.publish(connect_request);
     });
 
+    // set to four player mode
+    var motors = [];
+    function make_connect(num_mots){
+
+      connect_request.motor_count = num_mots;
+
+      motor_assignment.subscribe(function (message) {
+        console.log(message.client_key);
+        console.log(my_client_id);
+        if (message.client_key == my_client_id) {
+          for (i = 0; i < message.assigned_id.length; i++) { 
+            console.log(message.assigned_id[i]);
+            motors.push(message.assigned_id[i]);
+          }
+          motor_id_set = true;
+          // console.log("Got Motor: ", motor_setting.motor_id);
+          //Display motor_id on page
+          motor_list = {
+            1: "front left",
+            2: "front right",
+            3: "back left",
+            4: "back right"
+          }
+        // document.getElementById('motor_number').textContent = ('Connected to ' + motor_list[motor_setting.motor_id] + ' motor');
+        //motor_assignment.unsubscribe();
+        }
+      });
+      motor_request.publish(connect_request);
+    };
+    function four_player() {
+	    document.getElementById('choose_mode').style.display = 'none';
+	    document.getElementById('middle').style.display = 'inline-block';
+      make_connect(1);
+    };
+    function two_player() {
+	    document.getElementById('choose_mode').style.display = 'none';
+	    document.getElementById('two_player').style.display = 'inline-block';
+      make_connect(2);
+    };
+    function one_player() {
+	    document.getElementById('choose_mode').style.display = 'none';
+	    document.getElementById('one_player').style.display = 'inline-block';
+      make_connect(4);
+    };
     // change the velocity and send it to the ros node.
-    function change_vel(vel) {
-        motor_setting.motor_value = vel;
-        console.log(motor_setting.motor_value);
-        drive_setting.publish(motor_setting);
+    // change the velocity and send it to the ros node.
+    function change_vel(vels) {
+        for(i =0;i<vels.length;i++){
+          motor_setting.motor_id = motors[i];
+          motor_setting.motor_value = vels[i];
+
+          console.log(motors[i]);
+          console.log(vels[i]);
+          // console.log(motor_setting.motor_value);
+          drive_setting.publish(motor_setting);
+        }
     };
   </script>

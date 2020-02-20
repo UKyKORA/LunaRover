@@ -1,5 +1,5 @@
 controller: "kora.luna_rover.controllers.teensy_eday.TeensyEday"
-port: "/dev/ttyS0"
+port: "/dev/pts/0"
 available_motors: 
   - 0
   - 1
