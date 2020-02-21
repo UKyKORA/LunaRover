@@ -237,44 +237,16 @@ p{
       messageType : 'rover_msgs/SingleMotorSetting'
     });
 
+    var motor_service = new ROSLIB.Service({
+      ros: ros,
+      name: 'motor_id',
+      serviceType: 'rover_msgs/MotorId'
+    });
     // Topic for requesting a motor to send speeds to
-    var motor_request = new ROSLIB.Topic({
-      ros: ros,
-      name: '/motor_id_request',
-      messageType: 'rover_msgs/MotorIdRequest'
-    });
-
-    // Topic for receiving motor id to send speeds to
-    var motor_assignment = new ROSLIB.Topic({
-      ros: ros,
-      name: '/motor_id',
-      messageType: 'rover_msgs/MotorId'
-    });
-
-    var connect_request = new ROSLIB.Message({
+    var connect_request = new ROSLIB.ServiceRequest({
       client_key: my_client_id,
       connect_or_disconnect: true
     });
-
-    // ============== Button Controls of the Ros Topics ================
-    // toggle connection to the robot
-    /* function toggle_connect(buttonId) {
-        var hideBtn, showBtn, menuToggle;
-        if (buttonId == 'cbutton') {
-            document.querySelector('#cbutton').style.display = 'none';
-            document.querySelector('#dbutton').style.display = 'inline-block';
-            document.getElementById('dbutton').textContent = ('Disconnect from motor ' + motor_setting.motor_id);
-            console.log(motor_setting.motor_id);
-        } else {
-            document.querySelector('#cbutton').style.display = 'inline-block';
-            document.querySelector('#dbutton').style.display = 'none';
-            var connect_request = new ROSLIB.Message({
-              client_key: my_client_id,
-              connect_or_disconnect: false
-            });
-            motor_request.publish(connect_request);
-        }
-    }; */
 
     // before the window closes, ensure disconnected
     $(window).bind("beforeunload", function() { 
@@ -283,11 +255,11 @@ p{
           motor_setting.motor_id = motors[i];
           drive_setting.publish(motor_setting);
         }
-        var connect_request = new ROSLIB.Message({
+        connect_request = new ROSLIB.ServiceRequest({
           client_key: my_client_id,
           connect_or_disconnect: false
         });
-        motor_request.publish(connect_request);
+        motor_service.callService(connect_request, function(res){});
     });
 
     function sleep(ms) {
@@ -329,8 +301,8 @@ p{
               }
       };
 
-      motor_assignment.subscribe(function (message) {
-        if (message.client_key == my_client_id) {
+      motor_service.callService(connect_request, function(message){
+         if (message.client_key == my_client_id) {
           for (i = 0; i < message.assigned_id.length; i++) { 
             motors.push(message.assigned_id[i]);
           }
@@ -338,9 +310,6 @@ p{
           set_motor_display();
         }
       });
-      sleep(2000);
-      motor_request.publish(connect_request);
-
     };
     function four_player() {
 	    document.getElementById('choose_mode').style.display = 'none';

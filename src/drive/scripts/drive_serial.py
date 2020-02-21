@@ -5,7 +5,7 @@ ROS Node for 4WD controls from a web client
 
 '''
 import rospy
-from rover_msgs.msg import SingleMotorSetting, FWDReading, MotorId, MotorIdRequest
+from rover_msgs.msg import SingleMotorSetting, FWDReading, MotorId, MotorIdResponse
 from kora.luna_rover.utils.import_factory import ImportFactory
 
 class SerialMotorControl:
@@ -37,7 +37,7 @@ class SerialMotorControl:
                           "Reassigning new motors.")
             self._pop_motors_from_client(client_key)
 
-        motor_assign_msg = MotorId()
+        motor_assign_msg = MotorIdResponse()
         self.client_motors[client_key] = []
 
         assigned_ids = []
@@ -87,7 +87,7 @@ def launch():
                                            available_motor_keys, preferred_groupings)
 
     rospy.Subscriber("/drive_setting", SingleMotorSetting, control_interface.set_serial_vel)
-    rospy.Subscriber("/motor_id_request", MotorIdRequest, control_interface.assign_motor_id)
+    rospy.Service("/motor_id", MotorId, control_interface.assign_motor_id)
     rospy.spin()
 
 if __name__ == '__main__':
