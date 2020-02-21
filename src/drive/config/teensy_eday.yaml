@@ -1,8 +1,12 @@
 controller: "kora.luna_rover.controllers.teensy_eday.TeensyEday"
-port: "/dev/ttyS0"
+port: "/dev/pts/0"
 available_motors: 
   - 0
   - 1
   - 2
   - 3
-
+preferred_groupings: # the order for which you would like to assign the available motors
+  - 0 # group 0 gets popped first, together
+  - 1 # group 1 gets popped after all 0 is popped
+  - 0
+  - 1

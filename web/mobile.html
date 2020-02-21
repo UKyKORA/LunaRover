@@ -288,45 +288,55 @@ p{
         motor_request.publish(connect_request);
     });
 
-    // set to four player mode
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
     var motors = [];
     function make_connect(num_mots){
 
       connect_request.motor_count = num_mots;
 
+      function set_motor_display() {
+          console.log('yeet');
+          console.log(motors);
+          document.getElementById('motor_number').style.display = "block";
+              if (motors.length == 1) {
+                if (motors[0] == 1) {
+                  document.getElementById('motor_number').innerHTML = ('Connected to front left motor');
+                }
+                else if ( motors[0] == 2 ) { 
+                    document.getElementById('motor_number').innerHTML = ('Connected to front right motor');
+                }
+                else if (motors[0] == 3) {
+                  document.getElementById('motor_number').innerHTML = ('Connected to back left motor');
+                } 
+                else if (motors[0] == 4) {
+                  document.getElementById('motor_number').innerHTML = ('Connected to back right motor');
+                }
+              }
+              else if (motors.length == 2) {
+                if (motors[0] + motors[1] == 4) {
+                    document.getElementById('motor_number').innerHTML = ('Connected to left side motors');
+                } else { 
+                    document.getElementById('motor_number').innerHTML = ('Connected to right side motors');
+                }
+              }
+              else { 
+                    document.getElementById('motor_number').innerHTML = ('Connected');
+                    document.getElementById('motor_number').style.marginBottom = "15px";
+              }
+      };
+
       motor_assignment.subscribe(function (message) {
-        console.log(message.client_key);
-        console.log(my_client_id);
         if (message.client_key == my_client_id) {
           for (i = 0; i < message.assigned_id.length; i++) { 
-            console.log(message.assigned_id[i]);
             motors.push(message.assigned_id[i]);
           }
           motor_id_set = true;
           set_motor_display();
-          motor_assignment.unsubscribe();
         }
       });
-      function set_motor_display() {
-          switch(true) {
-              case motors.length == 1 && motors[0] == 1:
-                  document.getElementById('motor_number').textContent = ('Connected to front left motor');
-              case motors.length == 1 && motors[0] == 2:
-                  document.getElementById('motor_number').textContent = ('Connected to front right motor');
-              case motors.length == 1 && motors[0] == 3:
-                  document.getElementById('motor_number').textContent = ('Connected to back left motor');
-              case motors.length == 1 && motors[0] == 4:
-                  document.getElementById('motor_number').textContent = ('Connected to back right motor');
-              case motors.length == 2 && motors[0] + motors[1] == 4:
-                  document.getElementById('motor_number').textContent = ('Connected to left side motors');
-              case motors.length == 2 && motors[0] + motors[1] == 6:
-                  document.getElementById('motor_number').textContent = ('Connected to right side motors');
-              case motors.length == 4:
-                  document.getElementById('motor_number').textContent = ('Connected');
-                  document.getElementById('motor_number').style.marginBottom = "15px";
-          };
-          document.getElementById('motor_number').style.display = "block";
-      };
+      sleep(2000);
       motor_request.publish(connect_request);
 
     };
