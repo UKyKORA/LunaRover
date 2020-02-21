@@ -88,7 +88,7 @@ p{
 	padding: 5px;
 	text-align: center;
 	text-decoration: none;
-	display: block;
+	display: none;
 	font-size: 8vw;
 	margin: 5px;
 	border-radius: 10px;
@@ -121,7 +121,8 @@ p{
 	<img src="kora-logo.png" alt="KATS Logo" style="float:center-left;width:30vw;">
 	<img src="NASAKY.png" alt="NASA KY Logo" style="float:center-right;height:15vw;">
 	<p></p>
-	</div>
+  </div>
+  <span id="motor_number">Connected to motor x</span>
 	<div id="choose_mode">
 		<h2>Choose game mode</h2>
 		<button class="button" onclick="four_player();">4 player mode</button>
@@ -129,7 +130,7 @@ p{
 		<button class="button" onclick="one_player();">1 player mode</button>
 	</div>
 	<div id="two_player">
-	    <span id="motor_number">Connected to motor x</span>
+        <!--A LITTLE TOMATO SAUCE FOR ALL THAT SPAGHETTI-->
 	    <button id="fwd3_2" class="button" type="button" onpointerdown="darken('fwd3_2'); change_vel([100,100]);" onpointerup="darken('error');change_vel([0,0]);">&#62;&#62;&#62;</button>
 	    <button id="fwd2_2" class="button" type="button" onpointerdown="darken('fwd2_2'); change_vel([67,67]);" onpointerup="darken('error');change_vel([0,0]);">&#62;&#62;</button>
 	    <button id="fwd1_2" class="button" type="button" onpointerdown="darken('fwd1_2'); change_vel([33,33]);" onpointerup="darken('error');change_vel([0,0]);">&#62;</button>
@@ -138,18 +139,16 @@ p{
 	    <button id="bw3_2" class="button" type="button" onpointerdown="darken('bw3_2'); change_vel([-100,-100]);" onpointerup="darken('error');change_vel([0,0]);">&#60;&#60;&#60;</button>
 	</div>
 	<div id="one_player">
-	    <span id="motor_number" style="margin-bottom:15px;">Connected to motor x</span>
       <button id="fwd_1" class="button" style="width:10vw" type="button" onpointerdown="darken('fwd_1'); change_vel([67,67,67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8593;</button>
       <div style="display:inline-block;width:80%;">
-        <button id="left" style="float:left;display:inline-block;width:10vw;"class="button" type="button" onpointerdown="darken('left'); change_vel([-67,67,-67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8592;</button>
-        <button id="right" style="float:right;display:inline-block;width:10vw;" class="button" type="button" onpointerdown="darken('right'); change_vel([67,-67,67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8594;</button>
+        <button id="left" style="float:left;width:10vw;"class="button" type="button" onpointerdown="darken('left'); change_vel([-67,67,-67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8592;</button>
+        <button id="right" style="float:right;width:10vw;" class="button" type="button" onpointerdown="darken('right'); change_vel([67,-67,67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8594;</button>
       </div>
 	    <button id="bw_1" class="button" style="width:10vw" type="button" onpointerdown="darken('bw_1'); change_vel([-67,-67,-67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8595;</button>
 	    
 	</div>
 	<div id="middle">
         <!--MOM'S SPAGHETTI-->
-	    <span id="motor_number">Connected to motor x</span>
 	    <button id="fwd3" class="button" type="button" onpointerdown="darken('fwd3'); change_vel([100]);" onpointerup="darken('error');change_vel([0]);">&#62;&#62;&#62;</button>
 	    <button id="fwd2" class="button" type="button" onpointerdown="darken('fwd2'); change_vel([67]);" onpointerup="darken('error');change_vel([0]);">&#62;&#62;</button>
 	    <button id="fwd1" class="button" type="button" onpointerdown="darken('fwd1'); change_vel([33]);" onpointerup="darken('error');change_vel([0]);">&#62;</button>
@@ -316,7 +315,26 @@ p{
         //motor_assignment.unsubscribe();
         }
       });
+      switch(true) {
+          case motors.length == 1 && motors[0] == 1:
+              document.getElementById('motor_number').textContent = ('Connected to front left motor');
+          case motors.length == 1 && motors[0] == 2:
+              document.getElementById('motor_number').textContent = ('Connected to front right motor');
+          case motors.length == 1 && motors[0] == 3:
+              document.getElementById('motor_number').textContent = ('Connected to back left motor');
+          case motors.length == 1 && motors[0] == 4:
+              document.getElementById('motor_number').textContent = ('Connected to back right motor');
+          case motors.length == 2 && motors[0] + motors[1] == 4:
+              document.getElementById('motor_number').textContent = ('Connected to left side motors');
+          case motors.length == 2 && motors[0] + motors[1] == 6:
+              document.getElementById('motor_number').textContent = ('Connected to right side motors');
+          case motors.length == 4:
+              document.getElementById('motor_number').textContent = ('Connected');
+              document.getElementById('motor_number').style.marginBottom = "15px";
+      };
+      document.getElementById('motor_number').style.display = "block";
       motor_request.publish(connect_request);
+
     };
     function four_player() {
 	    document.getElementById('choose_mode').style.display = 'none';
