@@ -139,12 +139,12 @@ p{
 	    <button id="bw3_2" class="button" type="button" onpointerdown="darken('bw3_2'); change_vel([-100,-100]);" onpointerup="darken('error');change_vel([0,0]);">&#60;&#60;&#60;</button>
 	</div>
 	<div id="one_player">
-      <button id="fwd_1" class="button" style="width:10vw" type="button" onpointerdown="darken('fwd_1'); change_vel([67,67,67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8593;</button>
+      <button id="fwd_1" class="button" style="width:10vw" type="button" onpointerdown="darken('fwd_1'); change_vel([-67,67,-67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8593;</button>
       <div style="display:inline-block;width:80%;">
-        <button id="left" style="float:left;width:10vw;"class="button" type="button" onpointerdown="darken('left'); change_vel([-67,67,-67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8592;</button>
-        <button id="right" style="float:right;width:10vw;" class="button" type="button" onpointerdown="darken('right'); change_vel([67,-67,67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8594;</button>
+        <button id="left" style="float:left;width:10vw;"class="button" type="button" onpointerdown="darken('left'); change_vel([67,67,67,67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8592;</button>
+        <button id="right" style="float:right;width:10vw;" class="button" type="button" onpointerdown="darken('right'); change_vel([-67,-67,-67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8594;</button>
       </div>
-	    <button id="bw_1" class="button" style="width:10vw" type="button" onpointerdown="darken('bw_1'); change_vel([-67,-67,-67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8595;</button>
+	    <button id="bw_1" class="button" style="width:10vw" type="button" onpointerdown="darken('bw_1'); change_vel([67,-67,67,-67]);" onpointerup="darken('error');change_vel([0,0,0,0]);">&#8595;</button>
 	    
 	</div>
 	<div id="middle">
@@ -287,7 +287,6 @@ p{
         });
         motor_request.publish(connect_request);
     });
-<<<<<<< HEAD
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -369,6 +368,4 @@ p{
           drive_setting.publish(motor_setting);
         }
     };
-=======
->>>>>>> df1fce2... added local roslibjs
   </script>

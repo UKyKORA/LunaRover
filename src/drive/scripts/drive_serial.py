@@ -24,12 +24,9 @@ class SerialMotorControl:
 
     def assign_motor_id(self, msg):
         '''MotorIdRequest Callback for assigning and tracking motors and clients.'''
-        rospy.loginfo("got here")
         if msg.connect_or_disconnect and len(self.available_motors) >= msg.motor_count:
-            rospy.loginfo("got here1")
             self._assign_motors_and_send(msg.motor_count, msg.client_key)
         elif not msg.connect_or_disconnect and msg.client_key in self.client_motors:
-            rospy.loginfo("got here2")
             self._pop_motors_from_client(msg.client_key)
         elif msg.connect_or_disconnect:
             rospy.logwarn("Not enough motors to assign to Client Key: {msg.client_key}. Skipping.")
@@ -51,7 +48,6 @@ class SerialMotorControl:
 
         motor_assign_msg.assigned_id = tuple(assigned_ids)
         motor_assign_msg.client_key = client_key
-        rospy.loginfo("sending {assigned_ids} to {client_key}")
         self.client_pub.publish(motor_assign_msg)
 
     def _pop_motors_from_client(self, client_key):
