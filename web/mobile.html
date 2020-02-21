@@ -303,36 +303,30 @@ p{
             motors.push(message.assigned_id[i]);
           }
           motor_id_set = true;
-          // console.log("Got Motor: ", motor_setting.motor_id);
-          //Display motor_id on page
-          motor_list = {
-            1: "front left",
-            2: "front right",
-            3: "back left",
-            4: "back right"
-          }
-        // document.getElementById('motor_number').textContent = ('Connected to ' + motor_list[motor_setting.motor_id] + ' motor');
-        //motor_assignment.unsubscribe();
+          set_motor_display();
+          motor_assignment.unsubscribe();
         }
       });
-      switch(true) {
-          case motors.length == 1 && motors[0] == 1:
-              document.getElementById('motor_number').textContent = ('Connected to front left motor');
-          case motors.length == 1 && motors[0] == 2:
-              document.getElementById('motor_number').textContent = ('Connected to front right motor');
-          case motors.length == 1 && motors[0] == 3:
-              document.getElementById('motor_number').textContent = ('Connected to back left motor');
-          case motors.length == 1 && motors[0] == 4:
-              document.getElementById('motor_number').textContent = ('Connected to back right motor');
-          case motors.length == 2 && motors[0] + motors[1] == 4:
-              document.getElementById('motor_number').textContent = ('Connected to left side motors');
-          case motors.length == 2 && motors[0] + motors[1] == 6:
-              document.getElementById('motor_number').textContent = ('Connected to right side motors');
-          case motors.length == 4:
-              document.getElementById('motor_number').textContent = ('Connected');
-              document.getElementById('motor_number').style.marginBottom = "15px";
+      function set_motor_display() {
+          switch(true) {
+              case motors.length == 1 && motors[0] == 1:
+                  document.getElementById('motor_number').textContent = ('Connected to front left motor');
+              case motors.length == 1 && motors[0] == 2:
+                  document.getElementById('motor_number').textContent = ('Connected to front right motor');
+              case motors.length == 1 && motors[0] == 3:
+                  document.getElementById('motor_number').textContent = ('Connected to back left motor');
+              case motors.length == 1 && motors[0] == 4:
+                  document.getElementById('motor_number').textContent = ('Connected to back right motor');
+              case motors.length == 2 && motors[0] + motors[1] == 4:
+                  document.getElementById('motor_number').textContent = ('Connected to left side motors');
+              case motors.length == 2 && motors[0] + motors[1] == 6:
+                  document.getElementById('motor_number').textContent = ('Connected to right side motors');
+              case motors.length == 4:
+                  document.getElementById('motor_number').textContent = ('Connected');
+                  document.getElementById('motor_number').style.marginBottom = "15px";
+          };
+          document.getElementById('motor_number').style.display = "block";
       };
-      document.getElementById('motor_number').style.display = "block";
       motor_request.publish(connect_request);
 
     };
