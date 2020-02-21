@@ -169,9 +169,9 @@ p{
     </div>
 </div>
 </div>
-<script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
-<script src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="jquery.min.js"></script>
+<script src="eventemitter2.min.js"></script>
+<script src="roslib.min.js"></script>
 <script>
     // set darkmode
     function darken(buttonId) {
@@ -287,6 +287,7 @@ p{
         });
         motor_request.publish(connect_request);
     });
+<<<<<<< HEAD
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -368,4 +369,6 @@ p{
           drive_setting.publish(motor_setting);
         }
     };
+=======
+>>>>>>> df1fce2... added local roslibjs
   </script>
