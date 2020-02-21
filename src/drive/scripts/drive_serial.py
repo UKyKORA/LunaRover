@@ -53,6 +53,7 @@ class SerialMotorControl:
     def _pop_motors_from_client(self, client_key):
         # delete client and free up the motor again
         for mtr in self.client_motors[client_key]:
+            rospy.loginfo("adding {mtr} back to available")
             self.available_motors.append(mtr)
         self.client_motors.pop(client_key)
         self.available_motors = self._sort_by_groups(self.available_motors, self.groups)

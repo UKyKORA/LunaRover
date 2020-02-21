@@ -278,9 +278,11 @@ p{
 
     // before the window closes, ensure disconnected
     $(window).bind("beforeunload", function() { 
-        motor_setting.motor_value = 0;
-        drive_setting.publish(motor_setting);
-        
+        for (i=0; i<motors.length; i++){
+          motor_setting.motor_value = 0;
+          motor_setting.motor_id = motors[i];
+          drive_setting.publish(motor_setting);
+        }
         var connect_request = new ROSLIB.Message({
           client_key: my_client_id,
           connect_or_disconnect: false
