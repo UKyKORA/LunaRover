@@ -56,16 +56,14 @@ add_message_files(
    FWDSetting.msg
    FWDReading.msg
    TelemReading.msg
-   MotorId.msg
-   MotorIdRequest.msg
 )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
+ add_service_files(
+   FILES
+   MotorId.srv
 #   Service2.srv
-# )
+ )
 
 ## Generate actions in the 'action' folder
 # add_action_files(

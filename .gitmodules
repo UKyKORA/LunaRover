@@ -4,3 +4,6 @@
 [submodule "src/rosauth"]
 	path = src/rosauth
 	url = https://github.com/GT-RAIL/rosauth.git
+[submodule "src/joystick_drivers"]
+	path = src/joystick_drivers
+	url = https://github.com/UKyKORA/joystick_drivers.git
