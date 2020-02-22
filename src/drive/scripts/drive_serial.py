@@ -5,14 +5,14 @@ ROS Node for 4WD controls from a web client
 
 '''
 import rospy
-from rover_msgs.msg import SingleMotorSetting, FWDReading, MotorId, MotorIdResponse
+from rover_msgs.msg import SingleMotorSetting, FWDReading
+from rover_msgs.srv import MotorId, MotorIdResponse
 from kora.luna_rover.utils.import_factory import ImportFactory
 
 class SerialMotorControl:
-    def __init__(self, serial_controller, motor_pub, client_pub, available_motors, groups):
+    def __init__(self, serial_controller, motor_pub, available_motors, groups):
         self.serial_controller = serial_controller
         self.pub = motor_pub
-        self.client_pub = client_pub
         self.client_motors = {}
         # dont do any work in __init__! this is just to make a list comprehesion more readable
         self.available_motors = self._sort_by_groups(available_motors, groups)
@@ -24,12 +24,15 @@ class SerialMotorControl:
 
     def assign_motor_id(self, msg):
         '''MotorIdRequest Callback for assigning and tracking motors and clients.'''
+        response = MotorIdResponse([], 0)
         if msg.connect_or_disconnect and len(self.available_motors) >= msg.motor_count:
-            self._assign_motors_and_send(msg.motor_count, msg.client_key)
+            response = self._assign_motors_and_send(msg.motor_count, msg.client_key)
         elif not msg.connect_or_disconnect and msg.client_key in self.client_motors:
             self._pop_motors_from_client(msg.client_key)
         elif msg.connect_or_disconnect:
             rospy.logwarn("Not enough motors to assign to Client Key: {msg.client_key}. Skipping.")
+        rospy.loginfo("returning response to client")
+        return response
 
     def _assign_motors_and_send(self, motor_count, client_key):
         if client_key in self.client_motors:
@@ -37,7 +40,6 @@ class SerialMotorControl:
                           "Reassigning new motors.")
             self._pop_motors_from_client(client_key)
 
-        motor_assign_msg = MotorIdResponse()
         self.client_motors[client_key] = []
 
         assigned_ids = []
@@ -46,9 +48,7 @@ class SerialMotorControl:
             self.client_motors[client_key].append(new_motor)
             assigned_ids.append(new_motor)
 
-        motor_assign_msg.assigned_id = tuple(assigned_ids)
-        motor_assign_msg.client_key = client_key
-        self.client_pub.publish(motor_assign_msg)
+        return MotorIdResponse(tuple(assigned_ids), client_key)
 
     def _pop_motors_from_client(self, client_key):
         # delete client and free up the motor again
@@ -78,13 +78,11 @@ def launch():
 
 
     # setup client handler for single motor drive
-    motor_id_pub = rospy.Publisher('motor_id', MotorId, queue_size=10)
     available_motor_keys = rospy.get_param("/drive_motor/available_motors")
     preferred_groupings = rospy.get_param("/drive_motor/preferred_groupings")
 
     # startup ROS callback handlers
-    control_interface = SerialMotorControl(motor_controller, drive_pub, motor_id_pub,
-                                           available_motor_keys, preferred_groupings)
+    control_interface = SerialMotorControl(motor_controller, drive_pub, available_motor_keys, preferred_groupings)
 
     rospy.Subscriber("/drive_setting", SingleMotorSetting, control_interface.set_serial_vel)
     rospy.Service("/motor_id", MotorId, control_interface.assign_motor_id)
