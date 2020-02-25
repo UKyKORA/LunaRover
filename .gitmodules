@@ -1,12 +1,12 @@
 [submodule "src/rosbridge_suite"]
 	path = src/rosbridge_suite
-	url = https://github.com/RobotWebTools/rosbridge_suite.git
+	url = https://github.com/UKyKORA/rosbridge_suite.git
 [submodule "src/rosauth"]
 	path = src/rosauth
-	url = https://github.com/GT-RAIL/rosauth.git
+	url = https://github.com/UKyKORA/rosauth.git
 [submodule "src/joystick_drivers"]
 	path = src/joystick_drivers
 	url = https://github.com/UKyKORA/joystick_drivers.git
 [submodule "src/realsense-ros"]
 	path = src/realsense-ros
-	url = https://github.com/IntelRealSense/realsense-ros.git
+	url = https://github.com/UKyKORA/realsense-ros.git
