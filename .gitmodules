@@ -10,3 +10,6 @@
 [submodule "src/realsense-ros"]
 	path = src/realsense-ros
 	url = https://github.com/UKyKORA/realsense-ros.git
+[submodule "src/rplidar_ros"]
+	path = src/rplidar_ros
+	url = https://github.com/UKyKORA/rplidar_ros.git
