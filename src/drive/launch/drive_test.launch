@@ -1,6 +1,7 @@
 <launch>
-  <group ns="drive_motor">
+  <group ns="drive">
     <rosparam file="$(find drive)/config/drive_testing.yaml" />
   </group>
   <node pkg="drive" type="drive_4_motor.py" name="four_wheel_drive" output="screen"></node>
+  <node pkg="joy" type="joy_twist_remap.py" name="joy_twist_remap" output="screen"></node>
 </launch>

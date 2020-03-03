@@ -53,8 +53,6 @@ add_message_files(
    DigArmSetting.msg
    DigMotorSetting.msg
    SingleMotorSetting.msg
-   FWDSetting.msg
-   FWDReading.msg
    TelemReading.msg
 )
 
