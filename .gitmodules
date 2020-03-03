@@ -13,3 +13,6 @@
 [submodule "src/rplidar_ros"]
 	path = src/rplidar_ros
 	url = https://github.com/UKyKORA/rplidar_ros.git
+[submodule "src/roboclaw_driver"]
+	path = src/roboclaw_driver
+	url = https://github.com/sheaffej/roboclaw_driver.git
