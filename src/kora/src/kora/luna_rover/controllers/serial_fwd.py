@@ -6,7 +6,26 @@ class SerialFWD():
 
     def set_vels_from_dict(self, vel_dict):
         scale_dict = self._scale_speeds_in_dict(vel_dict)
-        formatted_command = "M{front_left[0]}{front_left[1]}{front_right[0]}{front_right[1]}{back_left[0]}{back_left[1]}{back_right[0]}{back_right[1]}".format(**scale_dict)
+        formatted_command = "M"
+
+
+        formatted_command += str(scale_dict["back_right"][0])
+        formatted_command += "{0:0>3}".format(scale_dict["back_right"][1])
+
+        formatted_command += str(scale_dict["front_right"][0])
+        formatted_command += "{0:0>3}".format(scale_dict["front_right"][1])
+
+        formatted_command += str(scale_dict["back_left"][0])
+        formatted_command += "{0:0>3}".format(scale_dict["back_left"][1])
+
+        formatted_command += str(scale_dict["front_left"][0])
+        formatted_command += "{0:0>3}".format(scale_dict["front_left"][1])
+
+
+        formatted_command +="\n"
+
+        # print(f"Sending: {formatted_command}")
+
         self.port.write(bytes(formatted_command, "utf-8"))
 
     @staticmethod
