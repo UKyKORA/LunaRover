@@ -9,3 +9,7 @@ class TestCont():
     def set_vel(self, num):
         self.vel = num
         print(f"set_vel to {num}")
+
+    def set_vels_from_dict(self, vel_dict):
+        ctl_str = "FL:{front_left}, FR:{front_right}, BL:{back_left}, BR:{back_right}".format(**vel_dict)
+        print(ctl_str)
