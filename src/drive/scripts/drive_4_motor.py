@@ -6,6 +6,7 @@ ROS Node for 4WD controls
 '''
 import rospy
 from geometry_msgs.msg import Twist
+from std_msgs.msg import Bool
 from kora.luna_rover.utils.import_factory import ImportFactory
 
 class DriveMotor:
@@ -19,9 +20,16 @@ class DriveMotor:
             "front_right":    lambda lin, ang: [lin/self.LIN_MAX + ang/self.ANG_MAX]*100,
             "back_right":     lambda lin, ang: [lin/self.LIN_MAX + ang/self.ANG_MAX]*100
         }
+        self.obstacle = False
+    
+    def set_obstacle_callback(self, msg):
+        self.obstacle = msg.data
 
     def callback(self, msg):
         '''consumes a twist message and converts it tank control motor values'''
+        if self.obstacle and msg.linear.y > 0:
+            msg.linear.y = 0
+
         motor_settings = self._perfom_tform_on_drive_motors(msg.linear.y, msg.angular.x)
         self.drive_controller.set_vels_from_dict(motor_settings)
 
@@ -38,6 +46,10 @@ def launch():
     fwd = DriveMotor(motor_controller_instance)
     DriveMotor.LIN_MAX = rospy.get_param("/drive/lin_max")
     DriveMotor.ANG_MAX = rospy.get_param("/drive/ang_max")
+
+    drive_gov = rospy.get_param("/drive/governor_enabled")
+    if drive_gov:
+        rospy.Subscriber("/avoidar_output", Bool, fwd.set_obstacle_callback)
 
     rospy.Subscriber("/drive_setting", Twist, fwd.callback)
     rospy.spin()
