@@ -21,11 +21,12 @@ class Avoidar():
             if r < 0.4:
                 m.data = True
                 break
-
-        for r in left_ranges:
-            if r < 0.4:
-                m.data = True
-                break
+            
+        if not m.data:
+            for r in left_ranges:
+                if r < 0.4:
+                    m.data = True
+                    break
         self.pub.publish(m)
 
 if __name__ == '__main__':
