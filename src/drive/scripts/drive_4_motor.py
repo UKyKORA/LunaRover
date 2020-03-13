@@ -14,10 +14,10 @@ class DriveMotor:
     def __init__(self, drive_controller):
         self.drive_controller = drive_controller
         self.twist_tform_dict = {
-            "front_left":     lambda lin, ang: [lin/self.LIN_MAX - ang/self.ANG_MAX]*100,
-            "back_left":      lambda lin, ang: [lin/self.LIN_MAX - ang/self.ANG_MAX]*100,
-            "front_right":    lambda lin, ang: [lin/self.LIN_MAX + ang/self.ANG_MAX]*100,
-            "back_right":     lambda lin, ang: [lin/self.LIN_MAX + ang/self.ANG_MAX]*100
+            "front_left":     lambda lin, ang: (lin/self.LIN_MAX - ang/self.ANG_MAX)*100,
+            "back_left":      lambda lin, ang: (lin/self.LIN_MAX - ang/self.ANG_MAX)*100,
+            "front_right":    lambda lin, ang: (lin/self.LIN_MAX + ang/self.ANG_MAX)*100,
+            "back_right":     lambda lin, ang: (lin/self.LIN_MAX + ang/self.ANG_MAX)*100
         }
 
     def callback(self, msg):
