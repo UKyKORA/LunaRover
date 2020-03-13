@@ -16,3 +16,6 @@
 [submodule "src/roboclaw_driver"]
 	path = src/roboclaw_driver
 	url = https://github.com/sheaffej/roboclaw_driver.git
+[submodule "src/drive"]
+	path = src/drive
+	url = https://github.com/UKyKORA/RoverDrive.git
