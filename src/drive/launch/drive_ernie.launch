@@ -1,0 +1,7 @@
+<launch>
+  <group ns="drive">
+    <rosparam file="$(find drive)/config/drive_ernie.yaml" />
+  </group>
+  <node pkg="drive" type="drive_4_motor.py" name="four_wheel_drive" output="screen"></node>
+  <include file="$(find rplidar_ros)/launch/rplidar.launch"/>
+</launch>
