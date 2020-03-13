@@ -1,7 +1,8 @@
 from serial import Serial
 
-class SerialFWD():
+class Teensy4WD():
     def __init__(self, port):
+        print(f"Connecting to teensy at {port}")
         self.port = Serial(port=port, baudrate=115200)
 
     def set_vels_from_dict(self, vel_dict):
