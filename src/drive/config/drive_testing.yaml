@@ -1,0 +1,4 @@
+controller: "kora.luna_rover.controllers.test_cont.TestCont"
+port: "/dev/pts/0"
+lin_max: 10   # max linear velocity in m/s
+ang_max: 6.28 # max angular velocity in rads/s

@@ -1,0 +1,6 @@
+<launch>
+  <group ns="drive">
+    <rosparam file="$(find drive)/config/drive_bert.yaml" />
+  </group>
+  <node pkg="drive" type="drive_4_motor.py" name="four_wheel_drive" output="screen"></node>
+</launch>
