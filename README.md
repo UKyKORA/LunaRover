@@ -5,7 +5,7 @@ To setup and run do:
 ```shell
 git clone https://github.com/UKyKORA/LunaRover.git
 cd LunaRover
-./setup --init
+catkin_make
 source devel/setup.bash
 roslaunch drive drive_test.launch
 ```
