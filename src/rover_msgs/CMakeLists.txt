@@ -54,6 +54,8 @@ add_message_files(
    DigMotorSetting.msg
    SingleMotorSetting.msg
    TelemReading.msg
+   SBMCTelemReading.msg
+   SBMCServoSetting.msg
 )
 
 ## Generate services in the 'srv' folder
