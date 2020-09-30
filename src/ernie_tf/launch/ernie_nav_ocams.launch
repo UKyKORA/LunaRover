@@ -1,0 +1,25 @@
+<launch>
+	<!-- Launch transformers --> 
+	<node pkg="tf" type="static_transform_publisher" name="depthcam_broadcaster" args="0.254 0 0.1524 1.57 3.14 1.57 base_link depthcam 100" />
+	<node pkg="tf" type="static_transform_publisher" name="lidar_broadcaster" args="0 0.0254 0.1524 0 0 0 base_link laser 100" />
+
+	<include file="$(find drive)/launch/drive_ernie.launch"/>
+	<include file="$(find joy)/launch/joy_twist.launch"/>
+
+	<!-- Launch LiDar -->
+	<include file="$(find rplidar_ros)/launch/rplidar.launch"/>
+
+	<!-- Launch Depthcam depending on which we have -->
+	<group if="$(eval realsense == 'true')">
+		<include file="$(find realsense2_camera)/launch/rs_camera.launch"/>
+	</group>
+
+	<group if="$(eval ocam == 'true')">
+		<!-- TODO: RTAB libs not getting recognized
+			<include file="$(find ocams_1cgn)/launch/RTAB-Map_slam.launch" />
+		-->
+	</group>
+	<!--
+	<include file="$(find ocams_1cgn)/launch/ocams_ros.launch" />
+	-->
+</launch>
